@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { IMovie } from 'src/app/models/IMovie';
 import { IOrder } from 'src/app/models/IOrder';
+import { IOrderRows } from 'src/app/models/IOrderRows';
 import { RequestCatalogService } from 'src/app/services/apiRequests/request-catalog.service';
 import { OrdersService } from 'src/app/services/orders/orders.service';
 
@@ -36,7 +37,14 @@ export class DetailsComponent implements OnInit {
     this.service.getProducts();
   }
 
-  sendOrders(product: IMovie) {
-    this.orderService.getOrders(product);
+  sendOrders(product: number) {
+    let rowOrder: IOrderRows =  {
+      id: 0,
+      productId: product,
+      product: '',
+      amount: 1,
+      orderId: 0,
+    }
+    this.orderService.getOrders(rowOrder);
   }
 }

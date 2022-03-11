@@ -18,40 +18,52 @@ export class CartComponent implements OnInit {
   movies: IMovie[] = [];
   actualMovies: IMovie[] = [];
 
-  constructor(private orderService: OrdersService, private Service: RequestCatalogService) { }
+  constructor(private orderService: OrdersService, private service: RequestCatalogService) { }
 
   ngOnInit(): void {
+    this.service.movies$.subscribe((moviesFromApi: IMovie[]) => {
+      this.movies = moviesFromApi;
+    });
     this.orderService.orders$.subscribe((data: IOrderRows) => {
-      for (let i = 0; i < this.cartOrders.length; i++) {
-        if (data.productId === this.cartOrders[i].productId) {
-          this.cartOrders[i].amount++;
-        } else {
-          this.cartOrders.push(data)
-        }
-      }
-      // this.totalPrice += data.price;
+      this.sendToCart(data);
+      this.sortMovies();
     });
   }
 
   removeProduct(i: number, p: number) {
-    this.cartOrders.splice(i,1);
+    this.actualMovies.splice(i,1);
+    this.cartOrders.splice(i, 1);
     this.totalPrice -= p;
   }
 
   sendOrders() {
     this.orderService.getCheckout(this.cartOrders);
-    // for (let i = 0; i < this.cartOrders.length; i++) {
-      
-    // }
+  }
+
+  sendPrice() {
+    this.orderService.getPrice(this.totalPrice)
   }
 
   sortMovies() {
-    for (let i = 0; i < this.movies.length; i++) {
-      for (let c = 0; c < this.cartOrders.length; c++) {
-        if (this.movies[i].id === this.cartOrders[c].productId) {
+    for (let c = 0; c < this.cartOrders.length; c++) {
+      for (let i = 0; i < this.movies.length; i++) {
+        if (this.movies[i].id === this.cartOrders[c].productId && !this.actualMovies.find(o => o.id === this.movies[i].id)) {
           this.actualMovies.push(this.movies[i]);
+          this.totalPrice += this.movies[i].price;
         }
       }
     }
+  }
+
+  sendToCart(data: IOrderRows) {
+    if (this.cartOrders.length < 1 || !this.cartOrders.find(o => o.productId === data.productId)) {
+      this.cartOrders.push(data)
+    } else {
+      for (let i = 0; i < this.cartOrders.length; i++) {
+        if (this.cartOrders[i].productId === data.productId) {
+          this.cartOrders[i].amount++;
+        }
+      }
+  }
   }
 }

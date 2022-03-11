@@ -12,22 +12,24 @@ import { OrdersService } from 'src/app/services/orders/orders.service';
 })
 export class CheckoutComponent implements OnInit {
   checkoutList: IOrderRows[] = [];
+  
   orderToSend: IOrder[] = [];
-  sendOrder: IOrder[] = [];
   movies: IMovie[] = [];
   actualMovies: IMovie[] = [];
 
   constructor(private orderService: OrdersService, private service: RequestCatalogService) { }
 
-  ngOnInit(): void {     
-    this.service.movies$.subscribe((moviesFromApi: IMovie[]) => {
-    this.movies = moviesFromApi;
-    this.sortMovies();
-  });
-  this.service.getProducts();
+  ngOnInit(): void {   
     this.orderService.checkoutOrders$.subscribe((data: IOrderRows[]) => {
       this.checkoutList = data;
-    });
+      this.sortMovies();
+      console.log(this.actualMovies); 
+    });  
+    this.service.movies$.subscribe((moviesFromApi: IMovie[]) => {
+    this.movies = moviesFromApi;
+  });
+  
+  this.service.getProducts();
   }
 
   populateOrdersToSend() {
@@ -36,10 +38,15 @@ export class CheckoutComponent implements OnInit {
   sortMovies() {
     for (let i = 0; i < this.movies.length; i++) {
       for (let c = 0; c < this.checkoutList.length; c++) {
-        if (this.movies[i].id === this.checkoutList[c].productId) {
+        if (this.movies[i].id === this.checkoutList[c].productId && !this.actualMovies.find(o => o.id === this.movies[i].id)) {
           this.actualMovies.push(this.movies[i]);
         }
       }
     }
+  }
+
+
+  sendOrder() {
+    this.orderService.sendOrders(this.checkoutList)
   }
 }

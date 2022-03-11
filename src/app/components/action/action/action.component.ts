@@ -13,8 +13,8 @@ import { OrdersService } from 'src/app/services/orders/orders.service';
 export class ActionComponent implements OnInit {
   movies: IMovie[] = [];
   action: IMovie[] = [];
-  orderRow: IOrderRows[] = [];
-  amount: number = 0;
+  // orderRow: IOrderRows[] = [];
+  // amount: number = 0;
 
   constructor(private service: RequestCatalogService, private orderService: OrdersService) { }
 
@@ -43,6 +43,7 @@ export class ActionComponent implements OnInit {
       amount: 1,
       orderId: 0,
     }
+    
     this.orderService.getOrders(rowOrder);
   }
 }

@@ -6,6 +6,7 @@ export const environment = {
   production: false,
   apiURL: 'https://medieinstitutet-wie-products.azurewebsites.net/api/products',
   apiCategoryURL: 'https://medieinstitutet-wie-products.azurewebsites.net/api/categories',
+  apiOrdersURL: 'https://medieinstitutet-wie-products.azurewebsites.net/api/orders',
 };
 
 /*

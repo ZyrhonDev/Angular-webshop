@@ -5,6 +5,7 @@ import { DetailsComponent } from 'src/app/components/details/details/details.com
 import { IMovie } from 'src/app/models/IMovie';
 import { IOrder } from 'src/app/models/IOrder';
 import { IOrderRows } from 'src/app/models/IOrderRows';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,26 +17,47 @@ export class OrdersService {
   private checkoutOrders = new Subject<IOrderRows[]>();
   checkoutOrders$ = this.checkoutOrders.asObservable();
 
-  tempList: IOrder[] = [];
+  private totalPrice = new Subject<number>();
+  totalPrice$ = this.totalPrice.asObservable();
 
+  orderToSend: IOrder = {
+    id: 0,
+      companyId: 31,
+      created:  new Date(),
+      createdBy:  "Oskar Lundberg",
+      paymentMethod:  "PayPal",
+      totalPrice:  0,
+      status:  0,
+      orderRows: [] = [],
+  }
   constructor(private http: HttpClient) { }
 
   getOrders(order: IOrderRows) {
     this.orders.next(order);
   }
 
+  getPrice(price: number) {
+    this.totalPrice.next(price);
+  }
+
   getCheckout(orders: IOrderRows[]) {
-    console.log(orders);
     this.checkoutOrders.next(orders);
-    // for (let i = 0; i < orders.length; i++) {
-    //   this.tempList[i].createdBy = 'Oskar Lundberg';
-    //   this.tempList[i].created = new Date();
-    //   this.tempList[i].paymentMethod = 'Paypal';
-    //   this.tempList[i].orderRows.productId = orders[i].id;
-    //   this.tempList[i].orderRows.product = orders[i].name;
-    //   this.tempList[i].orderRows.amount++;
-    //   this.tempList[i].totalPrice += orders[i].price;
-    // }
-    // this.checkoutOrders.next(this.tempList);
+  }
+
+  sendOrders(data: IOrderRows[]) {
+    for (let i = 0; i < data.length; i++) {
+    this.orderToSend = {
+      id: 0,
+      companyId: 31,
+      created:  new Date(),
+      createdBy:  "Oskar Lundberg",
+      paymentMethod:  "PayPal",
+      totalPrice:  0,
+      status:  0,
+      orderRows: [], // Min hjärna har tagit slut här, snubblar väl på mållinjen men jag har bara trasslat ihop allt nu.
+    }
+  }
+     return this.http.post<IOrder[]>(environment.apiOrdersURL, this.orderToSend).subscribe();
   }
 }
+
