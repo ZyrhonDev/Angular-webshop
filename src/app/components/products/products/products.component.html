@@ -1,0 +1,9 @@
+<div>
+    <ul>
+        <li class="category" *ngFor="let c of categories let i = index">
+            <a routerLink="{{categories[i].name}}">
+                <button (click)="changeCategory(c.id)"> {{categories[i].name}} </button>
+            </a>
+        </li>
+    </ul>
+</div>

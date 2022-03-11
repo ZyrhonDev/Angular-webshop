@@ -1,0 +1,12 @@
+<div class="moviesContainer">
+    <ul>
+        <li *ngFor="let a of comedy let i = index">
+            <a routerLink="{{comedy[i].id}}">
+            <img src="{{a.imageUrl}}" alt="" style="width: 100%">
+            </a>
+            <button (click)="sendOrders(a)">
+                Add to cart!
+            </button>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,23 @@
+div {
+    
+    ul {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
+.category {
+    list-style: none;
+    margin: 0;
+
+    button {
+        cursor: pointer;
+        border: 1px solid black;
+        width: 8rem;
+        height: 4rem;
+        background-color: teal;
+        color: white;
+        font-weight: bold;
+        box-shadow: 0.2rem 0.2rem 0.3rem black;
+    }
+}

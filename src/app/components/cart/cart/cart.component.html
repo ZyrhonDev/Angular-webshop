@@ -1,0 +1,10 @@
+<div>
+    <ul>
+        <li *ngFor="let o of actualMovies let i = index">
+            {{ o.name }} | <b>{{o.price }}:-</b>
+            <button (click)="removeProduct(i, actualMovies[i].price)" >Remove item</button>
+        </li>
+        <b><p>Total Price: {{totalPrice}}:-</p></b>
+        <button (click)="sendOrders()" routerLink="/checkout" >Checkout</button>
+    </ul>
+</div>

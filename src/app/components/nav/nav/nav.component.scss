@@ -1,0 +1,35 @@
+header {
+    position: relative;
+    left: 2.5rem;
+    width: 90vw;
+}
+
+nav {
+    padding: 0;
+    margin: 0;
+    border: 1px solid black;
+    width: 10%;
+    box-shadow: 0.2rem 0.2rem 0.3rem black;
+    background-color: grey;
+    ul { 
+        display: flex;
+        justify-content: space-around;
+        gap: 1rem;
+        padding: 0;
+
+        li {
+            list-style: none;
+
+            a { 
+                text-decoration: none;
+                color: orange;
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+.active {
+    border-bottom: 2px solid black;
+    transition: 0.25s;
+}

@@ -1,0 +1,22 @@
+<div *ngFor="let m of movie let i = index">
+    <img src="{{m.imageUrl}}" alt="" style="width: 25rem;">
+    <div>
+        <h1>
+            {{m.name}}
+        </h1>
+        <p>
+            Released: {{m.year}}
+        </p>
+        <p>
+            Price: {{m.price}} kr
+        </p>
+        <p>
+            {{m.description}}
+        </p>
+
+        <button (click)="sendOrders(m)">
+            Add to cart!
+        </button>
+    </div>
+</div>
+
