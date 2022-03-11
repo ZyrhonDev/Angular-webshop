@@ -22,14 +22,24 @@ export class OrdersService {
 
   orderToSend: IOrder = {
     id: 0,
-      companyId: 31,
-      created:  new Date(),
-      createdBy:  "Oskar Lundberg",
-      paymentMethod:  "PayPal",
-      totalPrice:  0,
-      status:  0,
-      orderRows: [] = [],
+    companyId: 31,
+    created: new Date(),
+    createdBy: "Oskar Lundberg",
+    paymentMethod: "PayPal",
+    totalPrice: 0,
+    status: 0,
+    orderRows: [{productId: 0, amount: 0}],
   }
+  parseOrder: IOrder = {
+    id: 0,
+    companyId: 31,
+    created: new Date(),
+    createdBy: '',
+    paymentMethod: '',
+    totalPrice: 0,
+    status: 0,
+    orderRows: [{productId: 0, amount: 0}],
+    }
   constructor(private http: HttpClient) { }
 
   getOrders(order: IOrderRows) {
@@ -46,18 +56,22 @@ export class OrdersService {
 
   sendOrders(data: IOrderRows[]) {
     for (let i = 0; i < data.length; i++) {
-    this.orderToSend = {
-      id: 0,
-      companyId: 31,
-      created:  new Date(),
-      createdBy:  "Oskar Lundberg",
-      paymentMethod:  "PayPal",
-      totalPrice:  0,
-      status:  0,
-      orderRows: [], // Min hjärna har tagit slut här, snubblar väl på mållinjen men jag har bara trasslat ihop allt nu.
-    }
+      let temporderRow: [{productId: number, amount: number}] = [{productId: data[i].productId, amount: data[i].amount}]
+      this.parseOrder = {
+        id: 0,
+        companyId: 31,
+        created: new Date(),
+        createdBy: '',
+        paymentMethod: '',
+        totalPrice: 0,
+        status: 0,
+        orderRows: temporderRow,
+        }
+    
   }
-     return this.http.post<IOrder[]>(environment.apiOrdersURL, this.orderToSend).subscribe();
+    this.orderToSend = this.parseOrder;
+    console.log(this.orderToSend);
+     return this.http.post<IOrder>(environment.apiOrdersURL, this.orderToSend).subscribe();
   }
 }
 

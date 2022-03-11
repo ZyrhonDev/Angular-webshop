@@ -9,9 +9,9 @@ export class IOrder {
     paymentMethod: string = "PayPal";
     totalPrice: number = 0;
     status: number = 0;
-    orderRows: [];
+    orderRows: [{productId: number, amount: number}];
 
-    constructor(myOrderRow: []){
+    constructor(myOrderRow: [{productId: number, amount: number}]){
         this.orderRows = myOrderRow;
     }
 }

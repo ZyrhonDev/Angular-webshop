@@ -1,5 +1,4 @@
 export class IOrderRows {
-    id: number = 0;
     productId: number;
     product: string = '';
     amount: number;

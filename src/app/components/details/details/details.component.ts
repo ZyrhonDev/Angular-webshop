@@ -39,7 +39,6 @@ export class DetailsComponent implements OnInit {
 
   sendOrders(product: number) {
     let rowOrder: IOrderRows =  {
-      id: 0,
       productId: product,
       product: '',
       amount: 1,
